@@ -50,5 +50,22 @@ client.on("ready", () => {
         .catch(console.error);
     }
 })
+ client.on("interactionCreate", async interaction => {
+    if(!CommandInteractionOptionResolver.isCommand()) return;
+
+    const command = client.commands.get(interaction.commandName);
+    if(!command) return;
+
+    try{
+        await command.excecute({client, interaction});
+    }
+    catch(err){
+        console.error(err);
+        await interaction.reply("An error ocurred while executing that command,")
+    }
+ })
+
+
+ client.login(process.env.TOKEN)
 
 
